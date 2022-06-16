@@ -1,9 +1,15 @@
+import os
 import ExchangeRate as Er
+from dotenv import load_dotenv
 
+load_dotenv()
+env = {
+    'url_api':os.getenv('URL_API')
+}
 
 class CurrencyConverter:
-    def __init__(self):
-        self.converter = Er.ExchangeRate('https://api.exchangerate.host/latest')
+    def __init__(self, base : str):
+        self.converter = Er.ExchangeRate(env['url_api'], base)
 
     def convert(self, currency_from: str, currency_to: str, amount: float) -> float:
         """
@@ -15,7 +21,7 @@ class CurrencyConverter:
         """
         from_currency = self.converter.get_rates()[currency_from]
         to_currency = self.converter.get_rates()[currency_to]
-        conversion = (from_currency / to_currency) * amount
+        conversion = (to_currency * amount)/from_currency
         return conversion
 
     def currency_exists(self, currency: str) -> bool:
