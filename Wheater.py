@@ -19,7 +19,8 @@ class WeatherCity:
      #convert to object
      weather_data_object = json.loads(weather_data)
      clouds = weather_data_object["weather"][0]["description"]
-     return json.dumps(clouds)
+     dictionary = {'clouds':clouds}
+     return json.dumps(dictionary)
 
   #metodo weather temperature
   def get_weather_temperature(self):
@@ -27,7 +28,8 @@ class WeatherCity:
       #convert to object
       weather_data_object = json.loads(weather_data)
       temperature = weather_data_object["main"]["temp"]
-      return json.dumps(temperature)
+      dictionary = {'temperature':temperature}
+      return json.dumps(dictionary)
   
   #metodo weather wind
   def get_weather_wind(self):
@@ -35,7 +37,8 @@ class WeatherCity:
       #convert to object
       weather_data_object = json.loads(weather_data)
       wind = weather_data_object["wind"]["speed"]
-      return json.dumps(wind)
+      dictionary = {'weather':wind}
+      return json.dumps(dictionary)
 
 
 api_key = '207b8be31a9062d5eff256f1acb51668'
@@ -47,3 +50,4 @@ tempoUser = WeatherCity(user_input,api_key)
 print('Temperatura:',tempoUser.get_weather_temperature(),'°C')
 print('Nuvens:',tempoUser.get_weather_clouds())
 print('Velocidade do vento:',tempoUser.get_weather_wind(),'m/s')
+
