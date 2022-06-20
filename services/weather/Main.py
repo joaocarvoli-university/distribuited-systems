@@ -1,7 +1,15 @@
 import WeatherAPI as wth
 import json
+import os
+from dotenv import load_dotenv
 
-api_key = '207b8be31a9062d5eff256f1acb51668' #API exemplo, por favor criar uma api key na página https://home.openweathermap.org/api_keys
+load_dotenv()
+env = {
+    'api_key':os.getenv('API_KEY')
+}
+
+#API exemplo, por favor criar uma api key na página https://home.openweathermap.org/api_keys
+api_key = env.api_key
 user_input = input("Digite o nome da cidade: ")
 
 tempoUser = wth.WeatherCity(user_input,api_key)
