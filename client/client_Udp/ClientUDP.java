@@ -67,13 +67,5 @@ public class ClientUDP{
 		}		
 		return inResponse;
 	}
-		
 	
-//	public static void main( String[] args ) {
-//		ClientUDP cli = new ClientUDP("localhost", 7889);
-//		
-//		cli.sendRequest("Mensagem ao servidor");
-//		System.out.println( cli.getResponse() );
-//	}
-
 }
