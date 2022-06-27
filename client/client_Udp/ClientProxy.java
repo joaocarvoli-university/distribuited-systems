@@ -3,7 +3,6 @@ package client_Udp;
 import java.rmi.server.RemoteObject;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -107,7 +106,7 @@ public class ClientProxy{
 	
 	
 	public static void main ( String[] args) {
-		//ClientProxy prox = new ClientProxy("localhost", 7889);
+		ClientProxy prox = new ClientProxy("localhost", 7889);
 		//ClientProxy prox = new ClientProxy("172.18.104.226", 12000 );
 		float value = (float) 5.068;
 		prox.convert("USD", "BRL", value );
