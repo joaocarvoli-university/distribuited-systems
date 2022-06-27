@@ -4,24 +4,23 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.SocketException;
 
 
 //ClientUDP recebe de Despachante e envia para UDPServer
 public class ClientUDP{
-			
-	Socket cSocket; 
+
 	DatagramSocket dataSocket;
 	DatagramPacket dataPacket;
-	InetAddress servip;
-	int serport;
-	String message;
+	   InetAddress servip;
+	   		   int serport;
+	   		String message;
 	
 	public ClientUDP( String serverHost, int portNumber ){
 		try {
-			this.cSocket = new Socket(serverHost, portNumber );
-			this.dataSocket = new DatagramSocket();
+			this.dataSocket = new DatagramSocket( );
+			this.servip = InetAddress.getByName( serverHost );
+			this.serport = portNumber;
 			
 		}catch ( Exception e) {
 			System.out.println("ClientUPD Exception: " + e.getMessage());
@@ -36,7 +35,7 @@ public class ClientUDP{
 			this.message = strMessage;
 			
 			byte [] mByte = message.getBytes();
-			this.dataPacket = new DatagramPacket(mByte, message.length(), this.cSocket.getInetAddress(), this.cSocket.getPort() );
+			this.dataPacket = new DatagramPacket(mByte, message.length(), this.servip, this.serport );
 			
 			this.dataSocket.send( dataPacket );
 			this.dataPacket = null;
