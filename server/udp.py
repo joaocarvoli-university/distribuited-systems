@@ -1,5 +1,6 @@
+import json
 from socket import *
-from dispatcher import dispatcher
+from dispatcher import Dispatcher
 
 
 serverPort = 7889
@@ -9,6 +10,7 @@ serverSocket.bind(('', serverPort))
 print('The server is ready to receive')
 while 1:
     message, clientAddress = serverSocket.recvfrom(1024)
-    print(message)
-    #dispatcher.invoke(message)
-    serverSocket.sendto(message, clientAddress)
+    Dispatcher.invoke(json.loads(message.decode()))
+    print(message.decode())
+
+    #serverSocket.sendto(message, clientAddress)
