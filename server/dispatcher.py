@@ -28,6 +28,15 @@ class Dispatcher:
                 message = sk.currencies_available(message)
 
         elif message['serviceName'] == 'WeatherAPI':
-            del message['serviceName']  # Reducing message size
+            del message['serviceName']
+            if message['methodName'] == 'get_weather_clouds':
+                del message['methodName']
+                sk_weather.Weather.get_weather_clouds(message)
+            elif message['methodName'] == 'get_weather_temperature':
+                del message['methodName']
+                sk_weather.Weather.get_weather_temperature(message)
+            elif message['methodName'] == 'get_weather_wind':
+                del message['methodName']
+                sk_weather.Weather.get_weather_wind(message)
 
         return message
