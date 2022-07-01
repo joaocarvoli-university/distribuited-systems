@@ -10,7 +10,6 @@ serverSocket.bind(('', serverPort))
 print('The server is ready to receive')
 while 1:
     message, clientAddress = serverSocket.recvfrom(1024)
-    Dispatcher.invoke(json.loads(message.decode()))
-    print(message.decode())
-
-    #serverSocket.sendto(message, clientAddress)
+    dp = Dispatcher()
+    response = dp.invoke(json.loads(message.decode()))
+    serverSocket.sendto(str(response).encode(), clientAddress)
