@@ -10,7 +10,7 @@ env = {
 
 class CurrencyConverter:
     def __init__(self, base: str):
-        self.converter = Er.ExchangeRate(env['url_api'], bmaase)
+        self.converter = Er.ExchangeRate(env['url_api'], base)
 
     def convert(self, currency_from: str, currency_to: str, amount: float) -> float:
         """
