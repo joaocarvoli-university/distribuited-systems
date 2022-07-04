@@ -4,6 +4,11 @@ from services.currencyConverter import CurrencyConverter as ServiceConverter
 
 class CurrencyConverter:
     def convert(self, message: json):
+        """
+
+        :param message:
+        :return:
+        """
         params = get_params(message)
         converter = ServiceConverter.CurrencyConverter(base=params['fromCurrency'])
         result = converter.convert(currency_from=params['fromCurrency'],
@@ -16,6 +21,11 @@ class CurrencyConverter:
         return message
 
     def currencies_available(self, message: json):
+        """
+
+        :param message:
+        :return:
+        """
         converter = ServiceConverter.CurrencyConverter(base='USD')
         result = converter.currencies_available()
 
@@ -25,6 +35,11 @@ class CurrencyConverter:
         return message
 
     def currency_exists(self, message: json):
+        """
+
+        :param message:
+        :return:
+        """
         params = get_params(message)
         converter = ServiceConverter.CurrencyConverter(base='USD')
         result = converter.currency_exists(currency=params['currency'])
