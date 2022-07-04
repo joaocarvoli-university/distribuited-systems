@@ -57,14 +57,14 @@ public class ClientProxy{
 		doOperation( 0, object, ( this.count++ ) , args );
 		
 		
-		//TODO operações de acordo com o método
+		//TODO operaï¿½ï¿½es de acordo com o mï¿½todo
 		float result = 0;
 		return result;
 	}
 	
 	
 	public boolean currencyExists ( String currency ) {
-		RemoteObject object = new RemoteObject( "CurrencyConverter", "currency_Exists");
+		RemoteObject object = new RemoteObject( "CurrencyConverter", "currency_exists");
 		
 		List<String> args = new ArrayList<>();
 		args.add("currency:" + currency);
@@ -72,20 +72,20 @@ public class ClientProxy{
 		doOperation( 0, object, ( this.count++ ) , args);
 		
 		
-		//TODO operações de acordo com o método
+		//TODO operaï¿½ï¿½es de acordo com o mï¿½todo
 		boolean answer = false;
 		return answer;
 	}
 	
 	public List<String> currencysAvailable ( ) {
-		RemoteObject object = new RemoteObject( "CurrencyConverter", "currencys_Available" );
+		RemoteObject object = new RemoteObject( "CurrencyConverter", "currencies_available" );
 		
 		List<String> args = new ArrayList<>();
 		
 		doOperation(0, object, ( this.count++ ) , args);
 		
 		
-		//TODO operações de acordo com o método
+		//TODO operaï¿½ï¿½es de acordo com o mï¿½todo
 		List<String> lst = null;
 		return lst;
 	}
@@ -99,7 +99,7 @@ public class ClientProxy{
 		
 		doOperation( 0, object, ( this.count++ ) , args);
 		
-		//TODO operações de acordo com o método
+		//TODO operaï¿½ï¿½es de acordo com o mï¿½todo
 		String answer = null;
 		return answer;
 	}
@@ -113,7 +113,7 @@ public class ClientProxy{
 		doOperation( 0, object, ( this.count++ ) , args);
 		
 		
-		//TODO operações de acordo com o método
+		//TODO operaï¿½ï¿½es de acordo com o mï¿½todo
 		String answer = null;
 		return answer;
 	}
@@ -127,7 +127,7 @@ public class ClientProxy{
 		doOperation( 0, object, ( this.count++ ) , args);
 		
 		
-		//TODO operações de acordo com o método
+		//TODO operaï¿½ï¿½es de acordo com o mï¿½todo
 		String answer = null;
 		return answer;
 	}
@@ -194,16 +194,10 @@ public class ClientProxy{
 		
 		
 	}
-	
-	
-	
-	
-	
-	
+
 	public static void main ( String[] args) {
 		ClientProxy prox = new ClientProxy("localhost", 7889);
 		//ClientProxy prox = new ClientProxy("172.18.104.226", 12000 );
-		
 	}
 	
 }
