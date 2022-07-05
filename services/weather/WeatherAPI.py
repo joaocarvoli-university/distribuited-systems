@@ -1,13 +1,21 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+env = {
+    'api_key':os.getenv('API_KEY')
+}
+
+api_key = env['api_key']
 
 # classe WeatherCity
 class WeatherCity:
     """  Class that shows weather data from a particular city using OpenWeatherMap's API
   """
 
-    def __init__(self, city, api_key):
+    def __init__(self, city):
         """Class constructor
 
     :param city: the city which the weather data will be provided
