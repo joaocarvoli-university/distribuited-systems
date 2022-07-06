@@ -17,10 +17,17 @@ serverSocket.bind(('', int(serverPort)))
 print(f'The server is running on port {serverPort}')
 while True:
     message, clientAddress = serverSocket.recvfrom(1024)
+    
     dp = Dispatcher()
-    response = dp.invoke(json.loads(message.decode()))
+    decoded_message = json.loads(message.decode())
 
-    duplicate_checker = Gdf.GandPy(cache_IDs_limit=1000, errorRaise=False)
+    cache = Gdf.GandPy(cache_ids_limit=1000, logEnabled=False)
+    cache_response = cache.get_cache_from_requestID(decoded_message['requestID'])
+    
+    if not cache_response:
+     response = dp.invoke(decoded_message)
+     cache.add_cache_to_requestID(decoded_message['requestID'], response)
+    else:
+        response = cache_response
 
-    if duplicate_checker.message_ID_shall_pass(response['requestID']):
-        serverSocket.sendto(str(response).encode(), clientAddress)
+    serverSocket.sendto(str(response).encode(), clientAddress)
