@@ -1,16 +1,39 @@
 from uuid import uuid4
+import json
 
 
 class Message:
-    def __init__(self, messageType="", requestId="", serviceName="", methodName="", arguments=""):
-        self.messageType = messageType
-        self.requestId = str(uuid4())
-        self.serviceName = serviceName
-        self.methodName = methodName
-        self.arguments = arguments
+    def __init__(self, messageType="", serviceName="", methodName="", arguments=""):
+        self._messageType = messageType
+        self._requestId = str(uuid4())
+        self._serviceName = serviceName
+        self._methodName = methodName
+        self._arguments = arguments
 
     def object_to_json(self):
         return self.__dict__
 
     def load_object(self, message):
-        self.__dict__ = message
+        data = json.loads(message.decode())
+        self.__dict__ = data
+
+    def get_message_type(self):
+        return self.messageType
+
+    def set_message_type(self, type: int):
+        self.messageType = type
+
+    def get_request_id(self):
+        return self.requestId
+
+    def get_service_name(self):
+        return self.serviceName
+
+    def get_method_name(self):
+        return self.methodName
+
+    def get_arguments(self):
+        return self.arguments
+
+    # def delete_field(self, field: str):
+    #    self.__dict__.pop(field)
