@@ -1,43 +1,43 @@
 import json
-import server.RemoteObject as Remote
+from Message import Message
+import server.Message as Remote
 import skeletons.Weather as SkWeather
 import skeletons.CurrencyConverter as SkCurrency
 
 
 class Dispatcher:
-    def invoke(self, message: json) -> json:
+    def invoke(self, message: Message) -> json:
         """
         This method is responsible to select which skeleton of a specific service will be used
         :param message: The client message send from the client
         :return: the response message
         """
+
         sk_cc = SkCurrency.CurrencyConverter()
         sk_wt = SkWeather.Weather()
-        remote_object = Remote.RemoteObject(message)
         response = {}
 
-        if remote_object.get_service_name() == 'CurrencyConverter':
-            del message['serviceName']
-            if remote_object.get_method_name() == 'convert':
-                del message['methodName']
-                response = sk_cc.convert(message)
-            elif remote_object.get_method_name() == 'currency_exists':
-                del message['methodName']
-                response = sk_cc.currency_exists(message)
-            elif remote_object.get_method_name() == 'currencies_available':
-                del message['methodName']
-                response = sk_cc.currencies_available(message)
+        if message.get_service_name() == 'CurrencyConverter':
+            if message.get_method_name() == 'convert':
+                response = sk_cc.convert(message.get_arguments())
+                message.set_message_type(1)
 
-        elif remote_object.get_service_name() == 'WeatherAPI':
-            del message['serviceName']
-            if remote_object.get_method_name() == 'get_weather_clouds':
-                del message['methodName']
-                response = sk_wt.get_weather_clouds(message)
-            elif remote_object.get_method_name() == 'get_weather_temperature':
-                del message['methodName']
-                response = sk_wt.get_weather_temperature(message)
-            elif remote_object.get_method_name() == 'get_weather_wind':
-                del message['methodName']
-                response = sk_wt.get_weather_wind(message)
+            elif message.get_method_name() == 'currency_exists':
+                response = sk_cc.currency_exists(message.get_arguments())
+                message.set_message_type(1)
+            elif message.get_method_name() == 'currencies_available':
+                response = sk_cc.currencies_available(message.get_arguments())
+                message.set_message_type(1)
+
+        elif message.get_service_name() == 'WeatherAPI':
+            if message.get_method_name() == 'get_weather_clouds':
+                response = sk_wt.get_weather_clouds(message.get_arguments())
+                message.set_message_type(1)
+            elif message.get_method_name() == 'get_weather_temperature':
+                response = sk_wt.get_weather_temperature(message.get_arguments())
+                message.set_message_type(1)
+            elif message.get_method_name() == 'get_weather_wind':
+                response = sk_wt.get_weather_wind(message.get_arguments())
+                message.set_message_type(1)
 
         return response

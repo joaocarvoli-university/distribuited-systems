@@ -27,9 +27,9 @@ public class ClientProxy{
 			this.convert("USD", "BRL", (float) 5.068 );
 			this.currencyExists( "CAD" );
 			this.currencysAvailable();
-			this.getWheterTemperature();
-			this.getWheterClouds();
-			this.getWheterWind();
+			//this.getWheterTemperature();
+			//this.getWheterClouds();
+			//this.getWheterWind();
 						
 		}catch( Exception e ) {
 			System.out.println("ClientProxy error: " + e.getMessage());
@@ -200,7 +200,7 @@ public class ClientProxy{
 		}
 	}
 
-	public static void main ( String[] args) {
+	public static void main (String[] args) {
 		ClientProxy prox = new ClientProxy("localhost", 7889);
 //		ClientProxy prox = new ClientProxy("172.18.104.91", 7889 );
 	}

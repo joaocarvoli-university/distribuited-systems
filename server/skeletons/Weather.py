@@ -3,35 +3,35 @@ from services.weather import WeatherAPI as ServiceWeather
 
 
 class Weather:
-    def __init__(self, message: json):
-        params = get_params(message)
+    def get_weather_temperature(self, args):
+
+        params = get_params(args)
         city = params['city']
-        #lembrete
         self.tempoUser = ServiceWeather.WeatherCity(city)
 
-    def get_weather_temperature(self, message: json):
-        temperatura = json.loads(self.tempoUser.get_weather_temperature())
+        temperatura = self.tempoUser.get_weather_temperature()
 
-        message['result'] = temperatura
-        message['messageType'] = 1
-        del message['arguments']
-        return message
+        return temperatura
 
-    def get_weather_clouds(self, message: json):
-        nuvens = json.loads(self.tempoUser.get_weather_clouds())
+    def get_weather_clouds(self ,args):
 
-        message['result'] = nuvens
-        message['messageType'] = 1
-        del message['arguments']
-        return message
+        params = get_params(args)
+        city = params['city']
+        self.tempoUser = ServiceWeather.WeatherCity(city)
 
-    def get_weather_wind(self, message: json):
-        vento = json.loads(self.tempoUser.get_weather_wind())
+        cloud = self.tempoUser.get_weather_clouds()
 
-        message['result'] = vento
-        message['messageType'] = 1
-        del message['arguments']
-        return message
+        return cloud
+
+    def get_weather_wind(self, args):
+
+        params = get_params(args)
+        city = params['city']
+        self.tempoUser = ServiceWeather.WeatherCity(city)
+
+        wind = self.tempoUser.get_weather_wind()
+
+        return wind
 
 #pega o nome da cidade e coloca em params
 def get_params(message: json):
