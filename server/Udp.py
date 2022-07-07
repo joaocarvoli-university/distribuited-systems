@@ -3,7 +3,6 @@ import json
 from socket import *
 from Dispatcher import Dispatcher
 import gandPy as Gdf
-from Message import Message
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,16 +16,18 @@ serverSocket.bind(('', int(serverPort)))
 
 print(f'The server is running on port {serverPort}')
 while True:
-    dp = Dispatcher()
     message, clientAddress = serverSocket.recvfrom(1024)
-    objectMessage = Message()
-    objectMessage.load_object(message)
+    
+    dp = Dispatcher()
+    decoded_message = json.loads(message.decode())
 
-    response = dp.invoke(objectMessage)
+    cache = Gdf.GandPy(cache_ids_limit=1000, logEnabled=False)
+    cache_response = cache.get_cache_from_requestID(decoded_message['requestID'])
+    
+    if not cache_response:
+     response = dp.invoke(decoded_message)
+     cache.add_cache_to_requestID(decoded_message['requestID'], response)
+    else:
+        response = cache_response
 
     serverSocket.sendto(str(response).encode(), clientAddress)
-
-    # duplicate_checker = Gdf.GandPy(cache_IDs_limit=1000, errorRaise=False)
-
-    # if duplicate_checker.message_ID_shall_pass(response['requestID']):
-    #    serverSocket.sendto(str(response).encode(), clientAddress)

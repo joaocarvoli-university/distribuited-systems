@@ -1,62 +1,51 @@
 
+from asyncio.windows_events import NULL
+from email import message
+import json
+
 class GandPy:
 
     
-    def __init__(self, cache_IDs_limit = 500, errorRaise = True):
+    def __init__(self, cache_ids_limit = 500, logEnabled = True):
         """
-        :param cache_IDs_limit: The amount of messages that will be saved to avoid duplicate before reset the cache
+        :param cache_ids_limit: The amount of messages that will be saved to avoid duplicate before reset the cache
         :param errorRaise: Raises on the console a Error every time a duplicated message appears
         """
-        self.data_ids_received = []
-        self.errorRaise = errorRaise
-        self.cache_IDs_limit = cache_IDs_limit
+        self.data_ids_received = {}
+        self.logEnabled = logEnabled
+        self.cache_ids_limit = cache_ids_limit
 
 
-    def message_ID_shall_pass(self, message_id):
-        """
-        :param message_id: The ID from the message received
-        """
+    def get_cache_from_requestID(self, message_id):
         if message_id not in self.data_ids_received:
-            self.__add_ID_to_database__(message_id)
+            if self.logEnabled:
+                print('Response from id: ' + str(message_id) + ' is not in cache. Returning NULL as response')
+            return NULL
+        
+        cached_response = self.data_ids_received[message_id]
+        
+        if self.logEnabled:
+            print('Retrieved cached response from id: ' + str(message_id))
+            print('Response: ' + cached_response)
+        
+        return cached_response
 
-            return True 
-
-        else:
-            if(self.errorRaise):
-                print("Error: Duplicated  Message ID '" + str(message_id) + "'-- Shall not Pass)")
-
-            return False
-
-
-    def __add_ID_to_database__(self, message_id):
-        if len(self.data_ids_received) >= self.cache_IDs_limit:
-            self.data_ids_received = [] 
-
-        self.data_ids_received.append(message_id)
-
-
-
-def main():
-
-    barrier = GandPy(cache_IDs_limit=0)
-    message_id = 3219
+    def add_cache_to_requestID(self, message_id, response):
+        self.__verify_limit_cache__()
+        
+        if response:
+         self.data_ids_received[message_id] = response
+         if self.logEnabled:
+                print('Cached response from id: ' + str(message_id))
 
 
-    #First Message
-    if barrier.message_ID_shall_pass(message_id):
-        print('Passou')
-    else:
-        print('Não Passou')
-
-    #Duplicated Message
-    message_id = 3219
-    if barrier.message_ID_shall_pass(message_id):
-        print('Passou')
-    else:
-        print('Não Passou')
+    def __verify_limit_cache__(self):
+        if len(self.data_ids_received) >= self.cache_ids_limit:
+            if self.logEnabled:
+                print('Warning: Cache overflow! Cleaning Cache.')
+            self.data_ids_received = {}   
 
 
 
-if __name__ == '__main__':
-    main()
+
 
