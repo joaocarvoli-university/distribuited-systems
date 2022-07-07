@@ -25,7 +25,7 @@ public class ClientProxy{
 //			System.out.println( client.getResponse() );
 
 			this.convert("USD", "BRL", (float) 5.068 );
-			this.currencyExists( "USD" );
+			this.currencyExists( "CAD" );
 			this.currencysAvailable();
 			this.getWheterTemperature();
 			this.getWheterClouds();
@@ -52,12 +52,12 @@ public class ClientProxy{
 		List<String> args = new ArrayList<>();
 		args.add( "fromCurrency:" + fromCurrency );
 		args.add( "toCurrency:" + toCurrency);
-		args.add("amount:" + Float.toString(amount) );
+		args.add( "amount:" + Float.toString(amount) );
 		
 		doOperation( 0, object, ( this.count++ ) , args );
 		
 		
-		//TODO opera��es de acordo com o m�todo
+		//TODO operacoes de acordo com o metodo
 		float result = 0;
 		return result;
 	}
@@ -72,7 +72,7 @@ public class ClientProxy{
 		doOperation( 0, object, ( this.count++ ) , args);
 		
 		
-		//TODO opera��es de acordo com o m�todo
+		//TODO operacoes de acordo com o metodo
 		boolean answer = false;
 		return answer;
 	}
@@ -85,27 +85,27 @@ public class ClientProxy{
 		doOperation(0, object, ( this.count++ ) , args);
 		
 		
-		//TODO opera��es de acordo com o m�todo
+		//TODO operacoes de acordo com o metodo
 		List<String> lst = null;
 		return lst;
 	}
 	
 	//--------- Wheater Service functions ---------//
 	
-	public String getWheterTemperature( ) {
+	public String getWheterTemperature( String cityName ) {
 		RemoteObject object = new RemoteObject( "WheaterAPI", "get_Wheter_Temperature" );
 		
 		List<String> args = new ArrayList<>();
 		
 		doOperation( 0, object, ( this.count++ ) , args);
 		
-		//TODO opera��es de acordo com o m�todo
+		//TODO operacoes de acordo com o metodo
 		String answer = null;
 		return answer;
 	}
 	
 	
-	public String getWheterClouds( ) {
+	public String getWheterClouds( String cityName ) {
 		RemoteObject object = new RemoteObject( "WheaterAPI", "get_Wheter_Clouds" );
 		
 		List<String> args = new ArrayList<>();
@@ -113,13 +113,13 @@ public class ClientProxy{
 		doOperation( 0, object, ( this.count++ ) , args);
 		
 		
-		//TODO opera��es de acordo com o m�todo
+		//TODO operacoes de acordo com o metodo
 		String answer = null;
 		return answer;
 	}
 	
 	
-	public String getWheterWind( ) {
+	public String getWheterWind( String cityName ) {
 		RemoteObject object = new RemoteObject("WheaterAPI", "get_Wheter_Wind" );
 		
 		List<String> args = new ArrayList<>();
@@ -127,7 +127,7 @@ public class ClientProxy{
 		doOperation( 0, object, ( this.count++ ) , args);
 		
 		
-		//TODO opera��es de acordo com o m�todo
+		//TODO operacoes de acordo com o metodo
 		String answer = null;
 		return answer;
 	}
@@ -160,7 +160,7 @@ public class ClientProxy{
 		return packge;
 	}
 	
-	private String unpackMessage( byte[] response ) {
+	private String unpackMessage( String response ) {
 		
 		
 		String unPackge = "";
@@ -172,6 +172,7 @@ public class ClientProxy{
 	class RemoteObject{
 		private String serviceString;
 		private String methodString;
+		private List<String> argments;
 		
 		public RemoteObject( String service, String method) {
 			this.serviceString = service;
@@ -191,13 +192,17 @@ public class ClientProxy{
 		public void setMethodString(String methodString) {
 			this.methodString = methodString;
 		}
-		
-		
+		public void setArgs( List<String> args ) {
+			this.argments = args;
+		}
+		public List<String> getArgments ( ){
+			return argments;
+		}
 	}
 
 	public static void main ( String[] args) {
 		ClientProxy prox = new ClientProxy("localhost", 7889);
-		//ClientProxy prox = new ClientProxy("172.18.104.226", 12000 );
+//		ClientProxy prox = new ClientProxy("172.18.104.91", 7889 );
 	}
 	
 }
