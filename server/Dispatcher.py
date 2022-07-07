@@ -26,7 +26,7 @@ class Dispatcher:
                 response = sk_cc.currency_exists(message.get_arguments())
                 message.set_message_type(1)
             elif message.get_method_name() == 'currencies_available':
-                response = sk_cc.currencies_available(message.get_arguments())
+                response = sk_cc.currencies_available()
                 message.set_message_type(1)
 
         elif message.get_service_name() == 'WeatherAPI':

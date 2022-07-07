@@ -1,9 +1,8 @@
 import os
-import json
+import HandlingExceptions as He
 from socket import *
 from Dispatcher import Dispatcher
 from Message import Message
-import gandPy as Gdf
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,14 +19,14 @@ while True:
     dp = Dispatcher()
     messageObject = Message()
     message, clientAddress = serverSocket.recvfrom(1024)
-    messageObject.load_object(message)
+    messageObject.serialize(message)
 
-    cache = Gdf.GandPy(cache_ids_limit=1000, logEnabled=False)
-    cache_response = cache.get_cache_from_requestID(messageObject.get_request_id())
+    cache = He.HandlingExceptions(cache_ids_limit=1000, logEnabled=False)
+    cache_response = cache.get_cache_from_request_id(messageObject.get_request_id())
 
     if not cache_response:
         response = dp.invoke(messageObject)
-        cache.add_cache_to_requestID(messageObject.get_request_id(), response)
+        cache.add_cache_to_request_id(messageObject.get_request_id(), response)
     else:
         response = cache_response
 

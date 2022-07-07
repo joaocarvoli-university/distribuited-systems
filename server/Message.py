@@ -9,11 +9,13 @@ class Message:
         self._serviceName = serviceName
         self._methodName = methodName
         self._arguments = arguments
+        self._response = None
+        self._errorMessage = None
 
-    def object_to_json(self):
+    def deserialize(self):
         return self.__dict__
 
-    def load_object(self, message):
+    def serialize(self, message):
         data = json.loads(message.decode())
         self.__dict__ = data
 
