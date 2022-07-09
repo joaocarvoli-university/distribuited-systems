@@ -2,7 +2,7 @@ from services.currencyConverter import CurrencyConverter as ServiceConverter
 
 
 class CurrencyConverter:
-    def convert(self, args: list) -> str:
+    def convert(self, args: list):
         params = get_params(args)
         converter = ServiceConverter.CurrencyConverter(base=params['fromCurrency'])
         result = converter.convert(
@@ -14,19 +14,21 @@ class CurrencyConverter:
         result = result.replace('{', '')
         result = result.replace('}', '')
         result = result.replace("'", '"')
-        return result
+        response = list()
+        response.append(result)
+        return response
 
-    def currencies_available(self) -> str:
+    def currencies_available(self):
         converter = ServiceConverter.CurrencyConverter(base='USD')
         result = converter.currencies_available()
-        response = []
+        response = list()
         for i, currency in enumerate(result):
             string = '"currency: "' + currency + '"'
             response.append(string)
 
-        return str(response)
+        return response
 
-    def currency_exists(self, args: list) -> str:
+    def currency_exists(self, args: list):
         params = get_params(args)
         converter = ServiceConverter.CurrencyConverter(base='USD')
         result = converter.currency_exists(currency=params['currency'])
@@ -34,8 +36,9 @@ class CurrencyConverter:
         result = result.replace('{', '')
         result = result.replace('}', '')
         result = result.replace("'", '"')
-
-        return result
+        response = list()
+        response.append(result)
+        return response
 
 
 def get_params(args: list):
