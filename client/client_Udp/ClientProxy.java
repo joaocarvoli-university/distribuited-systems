@@ -3,7 +3,12 @@ package client_Udp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import netscape.javascript.JSObject;
 
 
 
@@ -20,17 +25,14 @@ public class ClientProxy{
 		try {
 			client = new ClientUDP(host, portNumber);
 			count = 1;
-			
-//			client.sendRequest( "Mensagem :D" );
-//			System.out.println( client.getResponse() );
 
 			this.convert("USD", "BRL", (float) 5.068 );
 			this.currencyExists( "CAD" );
 			this.currencysAvailable();
-			//this.getWheterTemperature();
-			//this.getWheterClouds();
-			//this.getWheterWind();
-						
+//			this.getWheaterTemperature("Mountain View");
+//			this.getWheaterClouds("Mountain View");
+//			this.getWheaterWind("Mountain View");
+
 		}catch( Exception e ) {
 			System.out.println("ClientProxy error: " + e.getMessage());
 		}
@@ -47,57 +49,77 @@ public class ClientProxy{
 	*/
 	//--------- CurrencyConverter Service functions ---------//
 	public float convert ( String fromCurrency, String toCurrency, float amount ){
-		RemoteObject object = new RemoteObject("CurrencyConverter", "convert");
+		MessageObject remoteObject = new MessageObject("CurrencyConverter", "convert");
 		
 		List<String> args = new ArrayList<>();
 		args.add( "fromCurrency:" + fromCurrency );
 		args.add( "toCurrency:" + toCurrency);
 		args.add( "amount:" + Float.toString(amount) );
-		
-		doOperation( 0, object, ( this.count++ ) , args );
-		
-		
+		remoteObject.setArgments( args );
+		remoteObject.setMessageType( 0 );
+		remoteObject.setRequestId( this.count++ );
+			
 		//TODO operacoes de acordo com o metodo
-		float result = 0;
+		var responseObject =  doOperation( remoteObject );
+		List <String> respArgs = responseObject.getArgments( );
+		String [] amon = respArgs.get(2).split(":");
+		float result = Float.parseFloat( amon[1] );
+//		System.out.println(result);
 		return result;
 	}
 	
 	
 	public boolean currencyExists ( String currency ) {
-		RemoteObject object = new RemoteObject( "CurrencyConverter", "currency_exists");
+		MessageObject remoteObject = new MessageObject( "CurrencyConverter", "currency_exists");
 		
 		List<String> args = new ArrayList<>();
 		args.add("currency:" + currency);
-		
-		doOperation( 0, object, ( this.count++ ) , args);
-		
+		remoteObject.setArgments( args );
+		remoteObject.setMessageType( 0 );
+		remoteObject.setRequestId( this.count++ );
 		
 		//TODO operacoes de acordo com o metodo
-		boolean answer = false;
+		var responseObject =  doOperation( remoteObject );		
+		List<String> respArgs = responseObject.getArgments( );
+		String [] argmts = respArgs.get(0).split(":");
+//		System.out.println( argmts[1] );
+		boolean answer = Boolean.parseBoolean( argmts[1] );
 		return answer;
 	}
 	
 	public List<String> currencysAvailable ( ) {
-		RemoteObject object = new RemoteObject( "CurrencyConverter", "currencies_available" );
+		MessageObject remoteObject = new MessageObject( "CurrencyConverter", "currencies_available" );
 		
 		List<String> args = new ArrayList<>();
-		
-		doOperation(0, object, ( this.count++ ) , args);
-		
+		remoteObject.setArgments( args );
+		remoteObject.setMessageType( 0 );
+		remoteObject.setRequestId( this.count++ );
 		
 		//TODO operacoes de acordo com o metodo
-		List<String> lst = null;
+		var responseObject = doOperation( remoteObject );
+		List<String> respArgs = responseObject.getArgments( );
+		List<String> lst = new ArrayList<>();
+		
+		for (String ocurr : respArgs) {
+			String [] str = ocurr.split(":");
+			lst.add( str[1] );
+//			System.out.println(str[1]);
+		}
+		
 		return lst;
 	}
 	
+	
 	//--------- Wheater Service functions ---------//
 	
-	public String getWheterTemperature( String cityName ) {
-		RemoteObject object = new RemoteObject( "WheaterAPI", "get_Wheter_Temperature" );
+	public String getWheaterTemperature( String cityName ) {
+		MessageObject remoteObject = new MessageObject( "WheaterAPI", "get_Wheter_Temperature" );
 		
 		List<String> args = new ArrayList<>();
+		args.add("city:" + cityName);
+		remoteObject.setArgments( args );
 		
-		doOperation( 0, object, ( this.count++ ) , args);
+		doOperation( remoteObject );
 		
 		//TODO operacoes de acordo com o metodo
 		String answer = null;
@@ -105,12 +127,14 @@ public class ClientProxy{
 	}
 	
 	
-	public String getWheterClouds( String cityName ) {
-		RemoteObject object = new RemoteObject( "WheaterAPI", "get_Wheter_Clouds" );
+	public String getWheaterClouds( String cityName ) {
+		MessageObject remoteObject = new MessageObject( "WheaterAPI", "get_Wheter_Clouds" );
 		
 		List<String> args = new ArrayList<>();
+		args.add("city:" + cityName);
+		remoteObject.setArgments( args );
 		
-		doOperation( 0, object, ( this.count++ ) , args);
+		doOperation( remoteObject );
 		
 		
 		//TODO operacoes de acordo com o metodo
@@ -119,33 +143,32 @@ public class ClientProxy{
 	}
 	
 	
-	public String getWheterWind( String cityName ) {
-		RemoteObject object = new RemoteObject("WheaterAPI", "get_Wheter_Wind" );
+	public String getWheaterWind( String cityName ) {
+		MessageObject remoteObject = new MessageObject("WheaterAPI", "get_Wheter_Wind" );
 		
 		List<String> args = new ArrayList<>();
+		args.add("city:" + cityName);
+		remoteObject.setArgments( args );
 		
-		doOperation( 0, object, ( this.count++ ) , args);
+		doOperation( remoteObject );
 		
 		
 		//TODO operacoes de acordo com o metodo
 		String answer = null;
 		return answer;
 	}
+	
 	
 	//--------- For Remote Object functions ---------//	
-	public void doOperation( int messageType, RemoteObject obj, int requestId, List<String> args ) {
-		String request = packMessage( messageType , requestId, obj.getServiceString(), obj.getMethodString(), args);
-		client.sendRequest(request);
+	public MessageObject doOperation( MessageObject objectMessage  ) {
+		String request = packMessage( objectMessage.getMessageType() , objectMessage.getRequestId(), objectMessage.getServiceString(), objectMessage.getMethodString(), objectMessage.getArgments());
+		client.sendRequest( request );
 
-		
-		
-		//TODO implementar o client.getResponse( );
-		String response = client.getResponse();
-		System.out.println("servidor retornou: " + response );
-		
-
+		String responseJSON = client.getResponse( );
+		System.out.println("servidor retornou: " + responseJSON );
+		var responseObj = unpackMessage( responseJSON );
+		return responseObj;
 	}
-	
 	
 	private String packMessage(int messageType, int requestId, String serviceNam, String methodNam, List<String> arguments) {
 		
@@ -160,49 +183,81 @@ public class ClientProxy{
 		return packge;
 	}
 	
-	private String unpackMessage( String response ) {
-		
-		
-		String unPackge = "";
-		return unPackge;
+	private MessageObject unpackMessage( String response ) {
+		JSONObject sampleObj 	= new JSONObject( response );
+		var responseObj 		= new MessageObject( sampleObj.getString("serviceName"), sampleObj.getString( "methodName" ) );
+		JSONArray jsonArgments 	= new JSONArray();
+		jsonArgments 			= sampleObj.getJSONArray( "arguments" );
+		List<String> args 		= new ArrayList<>();
+		for ( Object Argument : jsonArgments ) {
+//			args.add( "\"" + (String) Argument + "\"");
+			args.add(  (String) Argument );
+		}
+		responseObj.setArgments( args );
+		responseObj.setMessageType( sampleObj.getInt( "messageType" )  );
+		responseObj.setRequestId( sampleObj.getInt( "requestId" ) );
+		return responseObj;
 	}
 	
 	
 	
-	class RemoteObject{
-		private String serviceString;
-		private String methodString;
+	class MessageObject{
+		private String serviceName;
+		private String methodName;
+		private int messageType;
+		private int requestId;
 		private List<String> argments;
 		
-		public RemoteObject( String service, String method) {
-			this.serviceString = service;
-			this.methodString  = method;
+		public MessageObject(){
+		}
+		
+		public MessageObject( String service, String method) {
+			this.serviceName = service;
+			this.methodName  = method;
 		}
 		
 		public String getServiceString() {
-			return serviceString;
+			return serviceName;
 		}
 		public String getMethodString() {
-			return methodString;
+			return methodName;
 		}
 		
 		public void setServiceString(String serviceString) {
-			this.serviceString = serviceString;
+			this.serviceName = serviceString;
 		}
 		public void setMethodString(String methodString) {
-			this.methodString = methodString;
+			this.methodName = methodString;
 		}
-		public void setArgs( List<String> args ) {
+		public void setArgments( List<String> args ) {
 			this.argments = args;
 		}
 		public List<String> getArgments ( ){
 			return argments;
 		}
+
+		public int getMessageType() {
+			return messageType;
+		}
+
+		public void setMessageType(int messageType) {
+			this.messageType = messageType;
+		}
+
+		public int getRequestId() {
+			return requestId;
+		}
+
+		public void setRequestId(int requestId) {
+			this.requestId = requestId;
+		}
+		
+		
 	}
 
 	public static void main (String[] args) {
 		ClientProxy prox = new ClientProxy("localhost", 7889);
-//		ClientProxy prox = new ClientProxy("172.18.104.91", 7889 );
+//		ClientProxy prox = new ClientProxy("172.18.102.216", 7889 );
 	}
 	
 }
