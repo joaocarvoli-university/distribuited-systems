@@ -11,7 +11,11 @@ class Weather:
 
         temperatura = self.tempoUser.get_weather_temperature()
 
-        return temperatura
+        result = str(temperatura)
+        result = result.replace('{', '')
+        result = result.replace('}', '')
+        result = result.replace("'", '"')
+        return result
 
     def get_weather_clouds(self ,args):
 
@@ -21,7 +25,11 @@ class Weather:
 
         cloud = self.tempoUser.get_weather_clouds()
 
-        return cloud
+        result = str(cloud)
+        result = result.replace('{', '')
+        result = result.replace('}', '')
+        result = result.replace("'", '"')
+        return result
 
     def get_weather_wind(self, args):
 
@@ -31,7 +39,11 @@ class Weather:
 
         wind = self.tempoUser.get_weather_wind()
 
-        return wind
+        result = str(wind)
+        result = result.replace('{', '')
+        result = result.replace('}', '')
+        result = result.replace("'", '"')
+        return result
 
 #pega o nome da cidade e coloca em params
 def get_params(message: json):
