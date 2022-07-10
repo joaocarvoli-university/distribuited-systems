@@ -20,7 +20,7 @@ print(f'The server is running on port {serverPort}')
 while True:
     dp = Dispatcher()
     messageObject = Message()
-    message, clientAddress = serverSocket.recvfrom(1024)
+    message, clientAddress = serverSocket.recvfrom(2048)
     messageObject.serialize(json.loads(message.decode()))
 
     cache_response = cache.get_cache_from_request_id(messageObject.get_request_id())

@@ -3,12 +3,8 @@ package client_Udp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import netscape.javascript.JSObject;
 
 
 
@@ -29,9 +25,9 @@ public class ClientProxy{
 			this.convert("USD", "BRL", (float) 5.068 );
 			this.currencyExists( "CAD" );
 			this.currencysAvailable();
-//			this.getWheaterTemperature("Mountain View");
-//			this.getWheaterClouds("Mountain View");
-//			this.getWheaterWind("Mountain View");
+			this.getWheaterTemperature("Mountain View");
+			this.getWheaterClouds("Mountain View");
+			this.getWheaterWind("Mountain View");
 
 		}catch( Exception e ) {
 			System.out.println("ClientProxy error: " + e.getMessage());
@@ -62,9 +58,9 @@ public class ClientProxy{
 		//TODO operacoes de acordo com o metodo
 		var responseObject =  doOperation( remoteObject );
 		List <String> respArgs = responseObject.getArgments( );
-		String [] amon = respArgs.get(2).split(":");
+		String [] amon = respArgs.get(0).split(":");
 		float result = Float.parseFloat( amon[1] );
-//		System.out.println(result);
+		System.out.println(result);
 		return result;
 	}
 	
@@ -78,14 +74,15 @@ public class ClientProxy{
 		remoteObject.setMessageType( 0 );
 		remoteObject.setRequestId( this.count++ );
 		
-		//TODO operacoes de acordo com o metodo
+		
 		var responseObject =  doOperation( remoteObject );		
 		List<String> respArgs = responseObject.getArgments( );
 		String [] argmts = respArgs.get(0).split(":");
-//		System.out.println( argmts[1] );
 		boolean answer = Boolean.parseBoolean( argmts[1] );
+		System.out.println( answer );
 		return answer;
 	}
+	
 	
 	public List<String> currencysAvailable ( ) {
 		MessageObject remoteObject = new MessageObject( "CurrencyConverter", "currencies_available" );
@@ -119,10 +116,12 @@ public class ClientProxy{
 		args.add("city:" + cityName);
 		remoteObject.setArgments( args );
 		
-		doOperation( remoteObject );
 		
-		//TODO operacoes de acordo com o metodo
-		String answer = null;
+		var responseObject = doOperation( remoteObject );
+		List<String> respArgs = responseObject.getArgments( );
+		String [] cityTemp = respArgs.get(0).split(":");
+		String answer = cityTemp[1];
+		System.out.println( answer );
 		return answer;
 	}
 	
@@ -134,11 +133,12 @@ public class ClientProxy{
 		args.add("city:" + cityName);
 		remoteObject.setArgments( args );
 		
-		doOperation( remoteObject );
 		
-		
-		//TODO operacoes de acordo com o metodo
-		String answer = null;
+		var responseObject = doOperation( remoteObject );
+		List<String> respArgs = responseObject.getArgments( );
+		String [] cityClouds = respArgs.get(0).split(":");
+		String answer = cityClouds[1];
+		System.out.println( answer );
 		return answer;
 	}
 	
@@ -150,11 +150,12 @@ public class ClientProxy{
 		args.add("city:" + cityName);
 		remoteObject.setArgments( args );
 		
-		doOperation( remoteObject );
 		
-		
-		//TODO operacoes de acordo com o metodo
-		String answer = null;
+		var responseObject = doOperation( remoteObject );
+		List<String> respArgs = responseObject.getArgments( );
+		String [] cityWind = respArgs.get(0).split(":");
+		String answer = cityWind[1];
+		System.out.println( answer );
 		return answer;
 	}
 	
@@ -165,6 +166,8 @@ public class ClientProxy{
 		client.sendRequest( request );
 
 		String responseJSON = client.getResponse( );
+		responseJSON = responseJSON.replace("\'", "\"");
+		responseJSON = responseJSON.replace(" ", "");
 		System.out.println("servidor retornou: " + responseJSON );
 		var responseObj = unpackMessage( responseJSON );
 		return responseObj;
@@ -190,11 +193,10 @@ public class ClientProxy{
 		jsonArgments 			= sampleObj.getJSONArray( "arguments" );
 		List<String> args 		= new ArrayList<>();
 		for ( Object Argument : jsonArgments ) {
-//			args.add( "\"" + (String) Argument + "\"");
 			args.add(  (String) Argument );
 		}
 		responseObj.setArgments( args );
-		responseObj.setMessageType( sampleObj.getInt( "messageType" )  );
+		responseObj.setMessageType( sampleObj.getInt( "messageType" ) );
 		responseObj.setRequestId( sampleObj.getInt( "requestId" ) );
 		return responseObj;
 	}

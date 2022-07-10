@@ -13,19 +13,11 @@ class CurrencyConverter:
         result = str(result)
         result = result.replace('{', '')
         result = result.replace('}', '')
-        result = result.replace("'", '"')
+        result = result.replace("'", '')
+        print(result)
         response = list()
         response.append(result)
-        return response
-
-    def currencies_available(self):
-        converter = ServiceConverter.CurrencyConverter(base='USD')
-        result = converter.currencies_available()
-        response = list()
-        for i, currency in enumerate(result):
-            string = '"currency: "' + currency + '"'
-            response.append(string)
-
+        # print(response)
         return response
 
     def currency_exists(self, args: list):
@@ -35,9 +27,19 @@ class CurrencyConverter:
         result = str(result)
         result = result.replace('{', '')
         result = result.replace('}', '')
-        result = result.replace("'", '"')
+        result = result.replace("'", '')
         response = list()
         response.append(result)
+        return response
+
+    def currencies_available(self):
+        converter = ServiceConverter.CurrencyConverter(base='USD')
+        result = converter.currencies_available()
+        response = list()
+        for i, currency in enumerate(result):
+            string = 'currency:' + currency
+            response.append(string)
+        print(response)
         return response
 
 

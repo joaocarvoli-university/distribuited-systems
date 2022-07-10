@@ -32,8 +32,8 @@ class CurrencyConverter:
         :return:A boolean that represents if this currency exists or not on used api
         """
         if currency in self.converter.get_rates():
-            return {"exists": True}
-        return {"exists": False}
+            return {"response": True}
+        return {"response": False}
 
     def currencies_available(self):
         """

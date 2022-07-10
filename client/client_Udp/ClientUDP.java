@@ -50,7 +50,7 @@ public class ClientUDP{
 		String inResponse = null;
 		try {
 
-			byte [] buffer = new byte[1024];
+			byte [] buffer = new byte[2048];
 			this.dataPacket = new DatagramPacket( buffer, buffer.length );
 			this.dataSocket.receive(this.dataPacket);
 			inResponse = new String( dataPacket.getData() );
