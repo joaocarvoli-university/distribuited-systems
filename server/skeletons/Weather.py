@@ -46,9 +46,9 @@ class Weather:
         return result
 
 #pega o nome da cidade e coloca em params
-def get_params(message: json):
+def get_params(args: list):
     params = {}
-    for i in message['arguments']:
+    for i in args:
         param, value = i.split(':')
         params[param] = value
     return params
