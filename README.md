@@ -20,5 +20,5 @@ How the server and client will be implemented in UDP protocol we need to guarant
 
 <img src="/docs/Generic%20Diagram.drawio.svg" alt="drawing" width="600"/>
 
-#### The model of the diagram based on our services are here: [Diagrams](/services/README.md)
+#### The model of the diagrams based on our services are here: [Diagrams](/services/README.md)
 
