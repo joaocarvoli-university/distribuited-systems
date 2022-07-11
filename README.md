@@ -4,8 +4,7 @@ In our solution, the objective is to provide that the user would be to access th
 How the server and client will be implemented in UDP protocol we need to guarantee the below requirements:
 - Retransmission
 - Removing duplicated messages.
-- ...
-- 
+
 ## Let's explain the main components of our architecture:
 ### Client side
 - Client: Interacts to the user, receives input data and return output data as like a GUI or terminal
