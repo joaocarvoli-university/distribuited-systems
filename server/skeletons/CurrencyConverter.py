@@ -17,7 +17,6 @@ class CurrencyConverter:
         print(result)
         response = list()
         response.append(result)
-        # print(response)
         return response
 
     def currency_exists(self, args: list):

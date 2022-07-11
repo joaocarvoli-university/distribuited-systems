@@ -12,9 +12,11 @@ class Weather:
         temperatura = self.tempoUser.get_weather_temperature()
 
         result = str(temperatura)
+
         result = result.replace('{', '')
         result = result.replace('}', '')
-        result = result.replace("'", '"')
+        result = result.replace("'", '')
+        result = result.replace('"', '')
         response = list()
         response.append(result)
         return response
@@ -30,7 +32,9 @@ class Weather:
         result = str(cloud)
         result = result.replace('{', '')
         result = result.replace('}', '')
-        result = result.replace("'", '"')
+        result = result.replace("'", '')
+        result = result.replace('"', '')
+        print(result)
         response = list()
         response.append(result)
         return response
@@ -46,7 +50,10 @@ class Weather:
         result = str(wind)
         result = result.replace('{', '')
         result = result.replace('}', '')
-        result = result.replace("'", '"')
+        result = result.replace("'", '')
+        result = result.replace('"', '')
+
+        print(result)
         response = list()
         response.append(result)
         return response
