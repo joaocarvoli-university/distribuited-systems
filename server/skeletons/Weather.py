@@ -15,7 +15,9 @@ class Weather:
         result = result.replace('{', '')
         result = result.replace('}', '')
         result = result.replace("'", '"')
-        return result
+        response = list()
+        response.append(result)
+        return response
 
     def get_weather_clouds(self , args: list):
 
@@ -29,7 +31,9 @@ class Weather:
         result = result.replace('{', '')
         result = result.replace('}', '')
         result = result.replace("'", '"')
-        return result
+        response = list()
+        response.append(result)
+        return response
 
     def get_weather_wind(self, args: list):
 
@@ -43,7 +47,9 @@ class Weather:
         result = result.replace('{', '')
         result = result.replace('}', '')
         result = result.replace("'", '"')
-        return result
+        response = list()
+        response.append(result)
+        return response
 
 #pega o nome da cidade e coloca em params
 def get_params(args: list):
