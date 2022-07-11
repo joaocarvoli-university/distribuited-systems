@@ -2,6 +2,7 @@ import os
 import json
 import HandlingExceptions as He
 from socket import *
+from Communication import Communication
 from Dispatcher import Dispatcher
 from Message import Message
 from dotenv import load_dotenv
@@ -15,13 +16,14 @@ serverPort = env['serverPort']
 serverSocket = socket(AF_INET, SOCK_DGRAM)
 serverSocket.bind(('', int(serverPort)))
 cache = He.HandlingExceptions(cache_ids_limit=1000, logEnabled=False)
+cm = Communication()
 
 print(f'The server is running on port {serverPort}')
 while True:
     dp = Dispatcher()
     messageObject = Message()
-    message, clientAddress = serverSocket.recvfrom(2048)
-    messageObject.serialize(json.loads(message.decode()))
+    message = cm.get_request(serverSocket)
+    messageObject.serialize(json.loads(message))
 
     cache_response = cache.get_cache_from_request_id(messageObject.get_request_id())
 
@@ -31,4 +33,5 @@ while True:
     else:
         messageObject = cache_response
 
-    serverSocket.sendto(str(messageObject.deserialize()).encode(), clientAddress)
+    cm.send_response(messageObject.deserialize())
+
