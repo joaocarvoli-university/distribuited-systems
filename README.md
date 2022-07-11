@@ -16,10 +16,9 @@ How the server and client will be implemented in UDP protocol we need to guarant
 - Skeleton: Receives the message, treat the message preparing the params to call a specific method from the service
 
 ## Diagrams
-### This diagram represents the flow based on of our services, the Currency Converter
+### This diagram represents the flow based on a generic service
 
-<img src="/docs/CurrencyConverter%20Diagram.svg" alt="drawing" width="600"/>
+<img src="/docs/Generic%20Diagram.drawio.svg" alt="drawing" width="600"/>
 
-### This second diagram represents the flow based on our second service, the Weather Forecast
+#### The model of the diagram based on our services are here: [Diagrams](/services/README.md)
 
-<img src="/docs/Weather%20Diagram.svg" alt="drawing" width="600"/>
