@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import HandlingExceptions as He
 from socket import *
 from Communication import Communication
@@ -33,5 +34,9 @@ while True:
     else:
         messageObject = cache_response
 
-    cm.send_response(messageObject.deserialize())
+    # To simulate the error case that there is no response to the client
+    if(messageObject.get_request_id() % 2) == 0:
+        cm.send_response(messageObject.deserialize())
+    else:
+        time.sleep(10)
 
