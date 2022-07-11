@@ -3,7 +3,7 @@ from services.weather import WeatherAPI as ServiceWeather
 
 
 class Weather:
-    def get_weather_temperature(self, args):
+    def get_weather_temperature(self, args: list):
 
         params = get_params(args)
         city = params['city']
@@ -17,7 +17,7 @@ class Weather:
         result = result.replace("'", '"')
         return result
 
-    def get_weather_clouds(self ,args):
+    def get_weather_clouds(self , args: list):
 
         params = get_params(args)
         city = params['city']
@@ -31,7 +31,7 @@ class Weather:
         result = result.replace("'", '"')
         return result
 
-    def get_weather_wind(self, args):
+    def get_weather_wind(self, args: list):
 
         params = get_params(args)
         city = params['city']
