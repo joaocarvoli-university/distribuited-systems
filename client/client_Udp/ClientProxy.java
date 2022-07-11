@@ -22,12 +22,12 @@ public class ClientProxy{
 			client = new ClientUDP(host, portNumber);
 			count = 1;
 
-			this.convert("USD", "BRL", (float) 5.068 );
-			this.currencyExists( "CAD" );
-			this.currencysAvailable();
-			this.getWheaterTemperature("Mountain View");
-			this.getWheaterClouds("Mountain View");
-			this.getWheaterWind("Mountain View");
+//			this.convert("USD", "BRL", (float) 5.068 );
+//			this.currencyExists( "CAD" );
+//			this.currencysAvailable();
+//			this.getWheaterTemperature("Mountain View");
+//		 	this.getWheaterClouds("Mountain View");
+//			this.getWheaterWind("Mountain View");
 
 		}catch( Exception e ) {
 			System.out.println("ClientProxy error: " + e.getMessage());
@@ -55,7 +55,6 @@ public class ClientProxy{
 		remoteObject.setMessageType( 0 );
 		remoteObject.setRequestId( this.count++ );
 			
-		//TODO operacoes de acordo com o metodo
 		var responseObject =  doOperation( remoteObject );
 		List <String> respArgs = responseObject.getArgments( );
 		String [] amon = respArgs.get(0).split(":");
@@ -74,7 +73,6 @@ public class ClientProxy{
 		remoteObject.setMessageType( 0 );
 		remoteObject.setRequestId( this.count++ );
 		
-		
 		var responseObject =  doOperation( remoteObject );		
 		List<String> respArgs = responseObject.getArgments( );
 		String [] argmts = respArgs.get(0).split(":");
@@ -92,7 +90,6 @@ public class ClientProxy{
 		remoteObject.setMessageType( 0 );
 		remoteObject.setRequestId( this.count++ );
 		
-		//TODO operacoes de acordo com o metodo
 		var responseObject = doOperation( remoteObject );
 		List<String> respArgs = responseObject.getArgments( );
 		List<String> lst = new ArrayList<>();
@@ -110,7 +107,7 @@ public class ClientProxy{
 	//--------- Wheater Service functions ---------//
 	
 	public String getWheaterTemperature( String cityName ) {
-		MessageObject remoteObject = new MessageObject( "WheaterAPI", "get_Wheter_Temperature" );
+		MessageObject remoteObject = new MessageObject( "WeatherAPI", "get_weather_temperature" );
 		
 		List<String> args = new ArrayList<>();
 		args.add("city:" + cityName);
@@ -127,7 +124,7 @@ public class ClientProxy{
 	
 	
 	public String getWheaterClouds( String cityName ) {
-		MessageObject remoteObject = new MessageObject( "WheaterAPI", "get_Wheter_Clouds" );
+		MessageObject remoteObject = new MessageObject( "WeatherAPI", "get_weather_clouds" );
 		
 		List<String> args = new ArrayList<>();
 		args.add("city:" + cityName);
@@ -144,7 +141,7 @@ public class ClientProxy{
 	
 	
 	public String getWheaterWind( String cityName ) {
-		MessageObject remoteObject = new MessageObject("WheaterAPI", "get_Wheter_Wind" );
+		MessageObject remoteObject = new MessageObject("WeatherAPI", "get_weather_wind" );
 		
 		List<String> args = new ArrayList<>();
 		args.add("city:" + cityName);
@@ -259,7 +256,7 @@ public class ClientProxy{
 
 	public static void main (String[] args) {
 		ClientProxy prox = new ClientProxy("localhost", 7889);
-//		ClientProxy prox = new ClientProxy("172.18.102.216", 7889 );
+////		ClientProxy prox = new ClientProxy("172.18.102.216", 7889 );
 	}
 	
 }
