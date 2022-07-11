@@ -22,12 +22,12 @@ public class ClientProxy{
 			client = new ClientUDP(host, portNumber);
 			count = 1;
 
-//			this.convert("USD", "BRL", (float) 5.068 );
-//			this.currencyExists( "CAD" );
+			this.convert("USD", "BRL", (float) 5.068 );
+			this.currencyExists( "CAD" );
 //			this.currencysAvailable();
-//			this.getWheaterTemperature("Mountain View");
-//		 	this.getWheaterClouds("Mountain View");
-//			this.getWheaterWind("Mountain View");
+			this.getWheaterTemperature("Mountain View");
+			this.getWheaterClouds("Mountain View");
+			this.getWheaterWind("Mountain View");
 
 		}catch( Exception e ) {
 			System.out.println("ClientProxy error: " + e.getMessage());

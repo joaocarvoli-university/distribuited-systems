@@ -4,7 +4,6 @@ from services.weather import WeatherAPI as ServiceWeather
 
 class Weather:
     def get_weather_temperature(self, args: list):
-
         params = get_params(args)
         city = params['city']
         self.tempoUser = ServiceWeather.WeatherCity(city)
@@ -21,8 +20,7 @@ class Weather:
         response.append(result)
         return response
 
-    def get_weather_clouds(self , args: list):
-
+    def get_weather_clouds(self, args: list):
         params = get_params(args)
         city = params['city']
         self.tempoUser = ServiceWeather.WeatherCity(city)
@@ -40,7 +38,6 @@ class Weather:
         return response
 
     def get_weather_wind(self, args: list):
-
         params = get_params(args)
         city = params['city']
         self.tempoUser = ServiceWeather.WeatherCity(city)
@@ -58,11 +55,11 @@ class Weather:
         response.append(result)
         return response
 
-#pega o nome da cidade e coloca em params
+
+# pega o nome da cidade e coloca em params
 def get_params(args: list):
     params = {}
     for i in args:
         param, value = i.split(':')
         params[param] = value
     return params
-

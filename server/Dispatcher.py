@@ -25,6 +25,7 @@ class Dispatcher:
                 response = sk_cc.currency_exists(message.get_arguments())
                 message.set_message_type(1)
                 message.set_arguments(response)
+
             elif message.get_method_name() == 'currencies_available':
                 response = sk_cc.currencies_available()
                 message.set_message_type(1)
@@ -35,11 +36,12 @@ class Dispatcher:
                 response = sk_wt.get_weather_clouds(message.get_arguments())
                 message.set_message_type(1)
                 message.set_arguments(response)
+            
             elif message.get_method_name() == 'get_weather_temperature':
                 response = sk_wt.get_weather_temperature(message.get_arguments())
                 message.set_message_type(1)
                 message.set_arguments(response)
-                message.set_message_type(1)
+            
             elif message.get_method_name() == 'get_weather_wind':
                 response = sk_wt.get_weather_wind(message.get_arguments())
                 message.set_message_type(1)

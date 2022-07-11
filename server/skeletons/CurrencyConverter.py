@@ -14,7 +14,6 @@ class CurrencyConverter:
         result = result.replace('{', '')
         result = result.replace('}', '')
         result = result.replace("'", '')
-        print(result)
         response = list()
         response.append(result)
         return response
@@ -38,7 +37,6 @@ class CurrencyConverter:
         for i, currency in enumerate(result):
             string = 'currency:' + currency
             response.append(string)
-        print(response)
         return response
 
 
