@@ -20,7 +20,7 @@ public class ClientProxy{
 	public ClientProxy( String host, int portNumber ) {
 		try {
 			client = new ClientUDP(host, portNumber);
-			count = 1;
+			count = 0;
 
 //			this.convert("USD", "BRL", (float) 5.068 );
 //			this.currencyExists( "CAD" );
@@ -53,6 +53,8 @@ public class ClientProxy{
 		args.add( "amount:" + Float.toString(amount) );
 		remoteObject.setArgments( args );
 		remoteObject.setMessageType( 0 );
+		
+//		System.out.println( this.count );
 		remoteObject.setRequestId( this.count++ );
 			
 		var responseObject =  doOperation( remoteObject );
@@ -71,6 +73,8 @@ public class ClientProxy{
 		args.add("currency:" + currency);
 		remoteObject.setArgments( args );
 		remoteObject.setMessageType( 0 );
+		
+//		System.out.println(this.count );
 		remoteObject.setRequestId( this.count++ );
 		
 		var responseObject =  doOperation( remoteObject );		
@@ -112,13 +116,17 @@ public class ClientProxy{
 		List<String> args = new ArrayList<>();
 		args.add("city:" + cityName);
 		remoteObject.setArgments( args );
+		remoteObject.setMessageType( 0 );
+		
+//		System.out.println( this.count );
+		remoteObject.setRequestId( this.count++ );
 		
 		
 		var responseObject = doOperation( remoteObject );
 		List<String> respArgs = responseObject.getArgments( );
 		String [] cityTemp = respArgs.get(0).split(":");
 		String answer = cityTemp[1];
-		System.out.println( answer );
+//		System.out.println( answer );
 		return answer;
 	}
 	
@@ -129,13 +137,16 @@ public class ClientProxy{
 		List<String> args = new ArrayList<>();
 		args.add("city:" + cityName);
 		remoteObject.setArgments( args );
+		remoteObject.setMessageType( 0 );
+//		System.out.println( this.count );
+		remoteObject.setRequestId( this.count++ );
 		
 		
 		var responseObject = doOperation( remoteObject );
 		List<String> respArgs = responseObject.getArgments( );
 		String [] cityClouds = respArgs.get(0).split(":");
 		String answer = cityClouds[1];
-		System.out.println( answer );
+//		System.out.println( answer );
 		return answer;
 	}
 	
@@ -146,6 +157,9 @@ public class ClientProxy{
 		List<String> args = new ArrayList<>();
 		args.add("city:" + cityName);
 		remoteObject.setArgments( args );
+		remoteObject.setMessageType( 0 );
+//		System.out.println( this.count );
+		remoteObject.setRequestId( this.count++ );
 		
 		
 		var responseObject = doOperation( remoteObject );
@@ -165,7 +179,7 @@ public class ClientProxy{
 		String responseJSON = client.getResponse( );
 		responseJSON = responseJSON.replace("\'", "\"");
 		responseJSON = responseJSON.replace(" ", "");
-		System.out.println("servidor retornou: " + responseJSON );
+//		System.out.println("servidor retornou: " + responseJSON );
 		var responseObj = unpackMessage( responseJSON );
 		return responseObj;
 	}
@@ -254,9 +268,9 @@ public class ClientProxy{
 		
 	}
 
-	public static void main (String[] args) {
-		ClientProxy prox = new ClientProxy("localhost", 7889);
+//	public static void main (String[] args) {
+//		ClientProxy prox = new ClientProxy("localhost", 7889);
 ////		ClientProxy prox = new ClientProxy("172.18.102.216", 7889 );
-	}
+//	}
 	
 }

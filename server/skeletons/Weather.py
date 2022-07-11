@@ -17,6 +17,7 @@ class Weather:
         result = result.replace('}', '')
         result = result.replace("'", '')
         result = result.replace('"', '')
+        print(result)
         response = list()
         response.append(result)
         return response
@@ -52,7 +53,6 @@ class Weather:
         result = result.replace('}', '')
         result = result.replace("'", '')
         result = result.replace('"', '')
-
         print(result)
         response = list()
         response.append(result)
